@@ -1,9 +1,4 @@
-const express = require('express');
-const routes = require('routes.js');
-const app = express();
-const multer = require('multer');
 const fs = require('fs');
-const path = require('path');
 
 var Reader = require('./js/ReaderAsyncAwait');
 var Writer = require('./js/Writer');
@@ -15,22 +10,7 @@ var PDFWriter = require('./js/PDFWriter');
 var reader = new Reader();
 var writer = new Writer();
 
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, "uploads/")
-  },
-  filename: function (req, file, cb) {
-    cb(null, file.originalname + Date.now() + path.extname(file.originalname));
-  }
-});
-const upload = multer({ storage });
-
-app.set("view engine", "ejs");
-
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-
-async function main(option, file) {
+async function main() {
 
   var data = await reader.Read('./examples/users.csv');
 
